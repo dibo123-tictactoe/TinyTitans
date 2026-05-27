@@ -39,10 +39,11 @@ void setupCharacterSelect() {
 }
 
 void drawCharacterSelectScreen() {
+  background(0);
   stroke(255, 0, 0); 
   noFill();
-rectMode(CENTER);
-rect(gx[i], gy[i], w, h);
+  rectMode(CENTER);
+  image(bg, 0, 0, 800, 600);
 
   // ── charboard ────────────────────────────────────
   int cW = 400, cH = 280;
@@ -60,7 +61,7 @@ rect(gx[i], gy[i], w, h);
   }
 
   // ── grid: 3 top, 2 bottom ───────────────────────
-  int row1Y = cY + 95;
+  int row1Y = cY + 100;
   int row2Y = cY + 215;
 
   gx[0] = cX + 60;  gy[0] = row1Y;
@@ -157,29 +158,30 @@ void drawPlayerSlot(int pNum, int x, int y, int sel, boolean locked) {
 }
 
 void mousePressedCharacterSelect() {
-  // 1. grid clicks
+  // 1. Grid clicks
   for (int i = 0; i < 5; i++) {
-    // Determine the dimensions used when drawing in drawCharacterSelectScreen()
-    int w = 120; // Default width
-    int h = 120; // Default height
-
-    // Match the logic you used in drawCharacterSelectScreen()
+    // Define the dimensions for each specific character
+    int w = 120, h = 120; // Default
     if (i == 1) { w = 130; h = 130; }
     else if (i == 4) { w = 200; h = 200; }
     else if (i == 0) { w = 150; h = 150; }
     else if (i == 2) { w = 120; h = 110; }
 
-    // Now check if mouse is inside the image (using CORNER mode logic for safety)
-    // Since images are drawn CENTERED at (gx[i], gy[i]):
+    // Check if the mouse click is within the character's bounding box
     if (mouseX >= gx[i] - w/2 && mouseX <= gx[i] + w/2 &&
         mouseY >= gy[i] - h/2 && mouseY <= gy[i] + h/2) {
       
-      if (!p1Locked && mouseX < 400) selectedP1 = i;
-      if (!p2Locked && mouseX >= 400) selectedP2 = i;
-      return; 
+      // Allow selection based on the active player
+      // We don't restrict by X position here so they can click anywhere on the board
+      if (!p1Locked) {
+        selectedP1 = i;
+      } else if (!p2Locked) {
+        selectedP2 = i;
+      }
+      return; // Exit after finding a match
     }
   }
-
+  
   // 2. SELECT buttons
   int btnW = 140, btnH = 46;
 
@@ -214,5 +216,4 @@ void resetCharacterSelect() {
   selectedP1 = -1;
   selectedP2 = -1;
   p1Locked   = false;
-  p2Locked   = false;
 }
