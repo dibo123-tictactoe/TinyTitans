@@ -8,6 +8,7 @@ void setupGameMode() {
   selectText  = loadImage("gamemode.png");
   btnPVP      = loadImage("player.png");
   btnAI       = loadImage("ai.png");
+
 }
 
 void drawGameModeScreen() {
@@ -24,9 +25,9 @@ void drawGameModeScreen() {
   int headerH = 210;
   int headerX = width / 2 - headerW / 2;
   int headerY = dlgY + 90;
-
+  
   if (selectText != null) image(selectText, headerX, headerY, headerW, headerH);
-
+  
   int bW  = 210;
   int bH  = 110;
   int gap = 20;
@@ -47,28 +48,38 @@ void drawGameModeScreen() {
 
   noFill();
   strokeWeight(3);
+
   if (mouseX >= pvpX && mouseX <= pvpX + pvpW &&
       mouseY >= pvpY && mouseY <= pvpY + pvpH) {
     stroke(255, 255, 255, 160);
     rect(pvpX, pvpY, pvpW, pvpH, 4);
+
   }
+
   if (mouseX >= aiX && mouseX <= aiX + aiW &&
       mouseY >= aiY && mouseY <= aiY + aiH) {
     stroke(255, 255, 255, 160);
     rect(aiX, aiY, aiW, aiH, 4);
+
   }
+
   noStroke();
-}
+  
+  }
 
 void mousePressedGameMode() {
   if (mouseX >= pvpX && mouseX <= pvpX + pvpW &&
       mouseY >= pvpY && mouseY <= pvpY + pvpH) {
     println("PLAYER VS PLAYER selected!");
     gameState = 2;
+
   }
+
   if (mouseX >= aiX && mouseX <= aiX + aiW &&
       mouseY >= aiY && mouseY <= aiY + aiH) {
     println("PLAYER VS AI selected!");
-    // gameState = 3;
+    gameState = 4;
+
   }
+
 }
